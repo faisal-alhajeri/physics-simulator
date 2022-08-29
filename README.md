@@ -45,5 +45,5 @@ Barriers can be dragged by mouse, also the can be selected by mouse click then m
   Click on the image bellow to see a gif sample
 </p>
 <p>
-<a href="https://im.ge/i/OPYP1S"><img src="https://i.im.ge/2022/08/29/OPYP1S.ezgif-com-gif-maker.md.gif" alt="ezgif.com-gif-maker" border="0"></a>
+<img src="/faisal-alhajeri/physics-simulator/blob/master/ezgif.com-gif-maker.gif?raw=true" alt="ezgif.com-gif-maker.gif">
 </p> 
