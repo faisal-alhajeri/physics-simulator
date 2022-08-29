@@ -13,7 +13,7 @@ export const PROGRAM_STATES ={
 
 const STEP = 9
 
-export const FRAMES = 1000/200
+export const FRAMES = 1000/500
 
 export const START_STATE = {
   w: 50,
@@ -28,7 +28,8 @@ export const START_STATE = {
     v: 0,
     a: 0
   }, 
-  state: PROGRAM_STATES.RESET
+  state: PROGRAM_STATES.RESET,
+  t: 0
 }
 
 function App() {

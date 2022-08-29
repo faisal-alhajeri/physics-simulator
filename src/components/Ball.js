@@ -19,11 +19,13 @@ export default function Ball({ball, setBall, measures}) {
         let newX = currentMeasures.current.x.d + currentMeasures.current.x.v * FRAMES/1000
         let newY = currentMeasures.current.y.d + currentMeasures.current.y.v * FRAMES/1000
         let newVY = currentMeasures.current.y.v - currentMeasures.current.y.a * FRAMES/1000
+        let newT = currentMeasures.current.t += FRAMES
         setBall(oldBall => {
             return {
                 ...oldBall,
                 x:{...(oldBall.x), d: newX},
-                y:{...(oldBall.y), d: newY, v: newVY}
+                y:{...(oldBall.y), d: newY, v: newVY},
+                t: newT
             }
         })
 
