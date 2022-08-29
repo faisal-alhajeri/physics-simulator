@@ -13,14 +13,45 @@ export const PROGRAM_STATES ={
 
 const STEP = 9
 
-export const FRAMES = 1000/200
+export const FRAMES = 1000/144
 
-const START_STATE = {x:0, y:0, state: PROGRAM_STATES.RESET}
+export const START_STATE = {
+  w: 50,
+  h: 50,
+  x:{
+    d: 0,
+    v: 0,
+    a: 0
+  },
+  y:{
+    d: 0,
+    v: 0,
+    a: 0
+  }, 
+  state: PROGRAM_STATES.RESET
+}
 
 function App() {
+  let simpleBarrier = () => {
+    return{
+      id: uuid(),
+      x: 100,
+      y: 100,
+      h: 100,
+      w: 10,
+      selected : false
+    }
+  }
+
   const [ball, setBall] = useState(START_STATE)
   const [measures, setMeasures] = useState({v:0, a:0, angle:0})
-  const [barrierList, setBarrierList] = useState([])
+  const [barrierList, setBarrierList] = useState(() => {
+    let b = simpleBarrier()
+    b.x = 400
+    b.y = 250
+    return [b]
+  })
+
 
   
   let setBarrier = (id, newBarrier) => {
@@ -74,24 +105,33 @@ function App() {
     document.addEventListener('keydown', moveBarriers)
   }, [])
 
-  let simpleBarrier = () => {
-    return{
-      id: uuid(),
-      x: 100,
-      y: 100,
-      h: 100,
-      w: 10,
-      selected : false
-    }
-  }
+
 
   let changeMeasures = (e) => {
     e.preventDefault()
+    let v = e.target['speed'].value
+    let a = e.target['acceleration'].value
+    let angle = e.target['angle'].value/180 * Math.PI
+
     setMeasures((oldM) => {
       return {
-        v: e.target['speed'].value,
-        a: e.target['acceleration'].value,
-        angle: e.target['angle'].value /180 * Math.PI,
+        v: v,
+        a: a,
+        angle: angle,
+      }
+    })
+    setBall(oldBall => {
+      return {
+        ...oldBall,
+        x: {
+          ...(oldBall.x),
+          v: v * Math.cos(angle)
+        },
+        y: {
+          ...(oldBall.y),
+          v: v * Math.sin(angle),
+          a: a
+        }
       }
     })
   }
@@ -112,6 +152,55 @@ function App() {
       }
     } )
   }
+
+  // check collision for every ball position change
+  useEffect(() => {
+    barrierList.forEach(barrier => {
+      let newX, newVX, collision=false;
+
+      const barrierTop = barrier.y + barrier.h,
+            barrierBot = barrier.y,
+            ballTop = ball.y.d + ball.h,
+            ballBot = ball.y.d
+
+      
+      // collision condition on y
+      if (!(ballBot > barrierTop || ballTop < barrierBot)){
+
+      // collision condition on x, right to the ball, left to the barrier
+        if(ball.x.d < barrier.x && ball.x.d + ball.w > barrier.x){
+          newX = barrier.x - ball.h -1
+          newVX = -ball.x.v
+          collision = true
+          console.log(`ball ${ballTop} ${ballBot}`);
+          console.log(`barrier ${barrierTop} ${barrierBot}`);
+        }
+
+        // collision condition on x, left to the ball, right to the barrier
+        else if (ball.x.d > barrier.x && barrier.x + barrier.w > ball.x.d){
+          newX = barrier.x + barrier.w + 1
+          newVX = -ball.x.v
+          collision=true
+        }
+      }
+
+      if(collision){
+        // console.log(`x before collision ${ball.x.d}`);
+        // console.log(`x after collision ${newX}`);
+
+        setBall(oldBall => {
+          return {
+            ...oldBall,
+            x: {
+              ...(oldBall.x),
+              d: newX,
+              v: newVX
+            },
+          }
+        })
+      }
+    })
+  }, [ball])
 
   let addBarrier = () => {
     setBarrierList((oldList) => {
@@ -144,8 +233,8 @@ function App() {
           <label labelFor='angle'>angle</label>
           <input type="number" name='angle' />
 
-          <input type='submit' />
-          <button type='button' onClick={toggleState}>
+          <input type='submit' disabled={ball.state !== PROGRAM_STATES.RESET} />
+          <button type='button' onClick={toggleState} >
             toggle
           </button>
           <button type='button' onClick={reset}>
