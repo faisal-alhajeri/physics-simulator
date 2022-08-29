@@ -231,66 +231,97 @@ function App() {
 
       
       <div className='ground'>
+
         <div className='outer-inputs-container'>
-          <div className='inputs-container'>
-            <form onSubmit={(e) => {
-              e.preventDefault()
-              changeMeasures(e.target)
-              }} ref={measuresFromRef} >
-            
-            <div>
-              <div htmlFor='speed'>speed</div>
-              <div>
-              <input type="number" name='speed' /> px/s
+          <div className='inner-inputs-container'>
+              <div className='inputs-container'>
+                  <form onSubmit={(e) => {
+                  e.preventDefault()
+                  changeMeasures(e.target)
+                  }} ref={measuresFromRef} >
+                
+                  <div>
+                    <div htmlFor='speed'>Velocity</div>
+                    <div>
+                    <input type="number" name='speed' /> px/s
 
+                    </div>
+                  </div>
+
+                  <div>
+                    <div htmlFor='acceleration'>Gravity</div>
+                    <div>
+                    <input type="number" name='acceleration' /> px/s^2
+                    </div>
+                  </div>
+
+                  <div>
+                    <div htmlFor='angle'>Angle</div>
+                    <div>
+                    <input type="number" name='angle' /> deg
+                    </div>
+                  </div>
+
+                  <div className='button-container'>
+                    <input type='submit' disabled={ball.state !== PROGRAM_STATES.RESET} value="Save" />
+                    <button type='button' onClick={toggleState} >
+                      Move/Stop
+                    </button>
+                    <button type='button' onClick={reset}>
+                      Reset
+                    </button>
+                  </div>
+
+                </form>
               </div>
-            </div>
 
-            <div>
-              <div htmlFor='acceleration'>acceleration</div>
-              <div>
-              <input type="number" name='acceleration' /> px/s^2
+              <div className='inputs-container'>
+                <button type='button' onClick={addBarrier}>
+                  Add Barrier
+                </button>
+
+                <button type='button' onClick={toggleBarrierSelection}>
+                  Select/Deselect All
+                </button>
+
+                <button type='button' onClick={removeSelected}>
+                  Remove Selected Barriers 
+                </button>
               </div>
-            </div>
-
-            <div>
-              <div htmlFor='angle'>angle</div>
-              <div>
-              <input type="number" name='angle' /> deg
-              </div>
-            </div>
-
-            <div className='button-container'>
-              <input type='submit' disabled={ball.state !== PROGRAM_STATES.RESET} value="Save" />
-              <button type='button' onClick={toggleState} >
-                Move/Stop
-              </button>
-              <button type='button' onClick={reset}>
-                Reset
-              </button>
-            </div>
-
-            </form>
-
           </div>
-          <div className='inputs-container'>
-            <button type='button' onClick={addBarrier}>
-              Add Barrier
-            </button>
 
-            <button type='button' onClick={toggleBarrierSelection}>
-              Select/Deselect All
-            </button>
-
-            <button type='button' onClick={removeSelected}>
-              Remove Selected Barriers 
-            </button>
-          </div>
-
-          <div className='inputs-container'>
-            
+          <div className='inner-inputs-container'>
+            <div className='inputs-container'>
+              <h3>
+                Starting Measures
+              </h3>
+              <div>velocity: {Math.round(measures.v)} px/s</div>
+              <div>gravity: {Math.round(measures.a)} px/s^2</div>
+              <div>angle: {Math.round(measures.angle * 180/ Math.PI)} deg</div>
+            </div>
+            <hr />
+            <div className='inputs-container'>
+              <h3>
+                X-axis
+              </h3>
+              <div>position: {Math.round(ball.x.d)} px</div>
+              <div>velocity: {Math.round(ball.x.v)} px/s</div>
+              <div></div>
+              {/* <div>acceleration: {Math.round(ball.x.a)} px/s^2</div> */}
+            </div>
+            <hr />
+            <div className='inputs-container'>
+              <h3>
+                Y-axis
+              </h3>
+              <div>position: {Math.round(ball.y.d)} px</div>
+              <div>velocity: {Math.round(ball.y.v)} px/s</div>
+              <div>gravity: {Math.round(ball.y.a)} px/s^2</div>
+            </div>
           </div>
         </div>
+
+
 
 
         

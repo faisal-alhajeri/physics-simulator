@@ -46,18 +46,19 @@ body{
 }
 
 .inputs-container{
-  padding: 40px;
+  padding: 0px 40px 0px 20px;
   display: flex;
   flex-direction: column;
-  justify-content: space-evenly;
-
+  justify-content: space-between;
+  align-items: stretch;
+  height: 100%;
 }
 
 .button-container {
   display: flex;
-  justify-content: space-evenly;
-  align-items: space-evenly;
-  padding: 5%;
+  justify-content: space-between;
+  align-items: start;
+  padding-top: 5%;
   width: 90%;
 }
 
