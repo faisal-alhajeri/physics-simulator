@@ -39,7 +39,7 @@ Barriers can be dragged by mouse, also the can be selected by mouse click then m
 <p> 
 3- run <code>npm start</code> to launch the application
 </p>
-<!-- 
+
 <p>
 <img src="https://im.ge/i/OPYP1S">
-</p> -->
+</p> 
