@@ -42,8 +42,6 @@ Barriers can be dragged by mouse, also the can be selected by mouse click then m
 
 <h3>Sample</h3>
 <p>
-  Click on the image bellow to see a gif sample
+  Click <a href='https://github.com/faisal-alhajeri/physics-simulator/blob/master/ezgif.com-gif-maker.gif'>here</a> to see a gif sample
 </p>
-<p>
-<img src="/faisal-alhajeri/physics-simulator/blob/master/ezgif.com-gif-maker.gif?raw=true" alt="ezgif.com-gif-maker.gif">
-</p> 
+
