@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import './App.css';
 import Ball from './components/Ball';
 import Barrier from './components/Barrier';
@@ -43,6 +43,7 @@ function App() {
     }
   }
 
+  const measuresFromRef = useRef();
   const [ball, setBall] = useState(START_STATE)
   const [measures, setMeasures] = useState({v:0, a:0, angle:0})
   const [barrierList, setBarrierList] = useState(() => {
@@ -62,6 +63,16 @@ function App() {
         if (id === barrier.id){
           return newBarrier
         }
+        return barrier
+      })
+    })
+  }
+
+  let toggleBarrierSelection = () => {
+    let newSelected = barrierList.length > 0? !barrierList[0].selected : false;
+    setBarrierList((oldList) => {
+      return [...oldList].map(barrier => {
+        barrier.selected = newSelected
         return barrier
       })
     })
@@ -107,11 +118,10 @@ function App() {
 
 
 
-  let changeMeasures = (e) => {
-    e.preventDefault()
-    let v = e.target['speed'].value
-    let a = e.target['acceleration'].value
-    let angle = e.target['angle'].value/180 * Math.PI
+  let changeMeasures = (form) => {
+    let v = form['speed'].value
+    let a = form['acceleration'].value
+    let angle = form['angle'].value/180 * Math.PI
 
     setMeasures((oldM) => {
       return {
@@ -150,7 +160,8 @@ function App() {
       return {
         ...START_STATE,
       }
-    } )
+    })
+    changeMeasures(measuresFromRef.current)
   }
 
   // check collision for every ball position change
@@ -221,38 +232,67 @@ function App() {
       
       <div className='ground'>
         <div className='outer-inputs-container'>
-        <div className='inputs-container'>
-          <form onSubmit={changeMeasures}>
-          
-          <label labelFor='speed'>speed</label>
-          <input type="number" name='speed' />
+          <div className='inputs-container'>
+            <form onSubmit={(e) => {
+              e.preventDefault()
+              changeMeasures(e.target)
+              }} ref={measuresFromRef} >
+            
+            <div>
+              <div htmlFor='speed'>speed</div>
+              <div>
+              <input type="number" name='speed' /> px/s
 
-          <label labelFor='acceleration'>acceleration</label>
-          <input type="number" name='acceleration' />
+              </div>
+            </div>
 
-          <label labelFor='angle'>angle</label>
-          <input type="number" name='angle' />
+            <div>
+              <div htmlFor='acceleration'>acceleration</div>
+              <div>
+              <input type="number" name='acceleration' /> px/s^2
+              </div>
+            </div>
 
-          <input type='submit' disabled={ball.state !== PROGRAM_STATES.RESET} />
-          <button type='button' onClick={toggleState} >
-            toggle
-          </button>
-          <button type='button' onClick={reset}>
-            Reset
-          </button>
-          </form>
+            <div>
+              <div htmlFor='angle'>angle</div>
+              <div>
+              <input type="number" name='angle' /> deg
+              </div>
+            </div>
 
+            <div className='button-container'>
+              <input type='submit' disabled={ball.state !== PROGRAM_STATES.RESET} value="Save" />
+              <button type='button' onClick={toggleState} >
+                Move/Stop
+              </button>
+              <button type='button' onClick={reset}>
+                Reset
+              </button>
+            </div>
+
+            </form>
+
+          </div>
+          <div className='inputs-container'>
+            <button type='button' onClick={addBarrier}>
+              Add Barrier
+            </button>
+
+            <button type='button' onClick={toggleBarrierSelection}>
+              Select/Deselect All
+            </button>
+
+            <button type='button' onClick={removeSelected}>
+              Remove Selected Barriers 
+            </button>
+          </div>
+
+          <div className='inputs-container'>
+            
+          </div>
         </div>
-        <div className='inputs-container'>
-          <button type='button' onClick={addBarrier}>
-            add barrier
-          </button>
 
-          <button type='button' onClick={removeSelected}>
-            remove selected
-          </button>
-        </div>
-        </div>
+
         
       </div>
     </>
