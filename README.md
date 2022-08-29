@@ -41,5 +41,5 @@ Barriers can be dragged by mouse, also the can be selected by mouse click then m
 </p>
 <!-- 
 <p>
-<img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTQiICxX7SNshiebtkyqGDBlFSsj6nd4pz7fIJcXwAc&s">
+<img src="https://im.ge/i/OPYP1S">
 </p> -->
