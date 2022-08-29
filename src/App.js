@@ -13,7 +13,7 @@ export const PROGRAM_STATES ={
 
 const STEP = 9
 
-export const FRAMES = 1000/144
+export const FRAMES = 1000/200
 
 export const START_STATE = {
   w: 50,
@@ -293,7 +293,7 @@ function App() {
           <div className='inner-inputs-container'>
             <div className='inputs-container'>
               <h3>
-                Starting Measures
+                Starting Measurements
               </h3>
               <div>velocity: {Math.round(measures.v)} px/s</div>
               <div>gravity: {Math.round(measures.a)} px/s^2</div>
